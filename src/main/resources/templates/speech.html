@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>演讲页面</title>
+    <link rel="stylesheet" href="../static/css/layui.css">
+    <link href="../static/css/bootstrap.css" rel="stylesheet" type="text/css"/>
+    <link href="../static/css/speech.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div id="home" class="header">
+    <div class="container">
+        <!-- top-hedader -->
+        <div class="top-header">
+            <!-- /logo -->
+
+            <div class="banner-info">
+                <div class="col-md-7 header-right">
+                    <h1 id="test"></h1>
+                    <h6 th:text="${'当前为第'+gomeUser.competitionOrder+'位参赛选手'}"></h6>
+                    <ul class="address">
+
+                        <li>
+                            <ul class="address-text">
+                                <li><b>姓名</b></li>
+                                <li th:text="${gomeUser.userPersonsName}"></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <ul class="address-text">
+                                <li><b>板块</b></li>
+                                <li th:text="${branch0}"></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <ul class="address-text">
+                                <li><b>部门</b></li>
+                                <li th:text="${branch1}"></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <ul class="address-text">
+                                <li><b>岗位</b></li>
+                                <li th:text="${branch2}"></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <ul class="address-text">
+                                <li><b>视频展示</b></li>
+                                <li th:text="${gomeUser.isSubmitRobot}"></li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                </div>
+                <div class="col-md-5 header-left">
+                    <img th:src="${gomeUser.photoUrl}" alt="">
+                    <!--                    <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1597315971848&di=dd97a2dabb683b3ed2454180315a9505&imgtype=0&src=http%3A%2F%2Fa1.att.hudong.com%2F62%2F02%2F01300542526392139955025309984.jpg" alt="">-->
+                </div>
+                <div class="clearfix"></div>
+
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script src="../static/jquery-3.3.1.min.js"></script>
+<script src="../static/bootstrap.js"></script>
+<script src="../static/layui.all.js"></script>
+<script>
+    //连接到websocket
+    var webSocketUrl = "ws://101.200.43.36:8088/websocket/publicscreen";
+    var socket = new WebSocket(webSocketUrl);
+    ;!function () {
+        var layer = layui.layer,
+            form = layui.form,
+            $ = layui.$,
+            util = layui.util;
+        // 倒计时
+        //1. js获取当bai前时间
+        var date = new Date();
+        var min = date.getMinutes();
+        //3. 设置当前时间+5分钟：把zhi当前分钟数+5后的值重新设置为date对象的分钟数
+        date.setMinutes(min + 5);
+        // 设置开始时间和结束时间
+        var endTime = date.getTime();
+        var nowDate = new Date().getTime();
+        // 1.开始时间是当前时间，结束时间是数据库的时间*5分钟
+        util.countdown(endTime, nowDate, function (date, nowDate, timer) {
+            // 1. 如果加的五分钟小于当前时间
+            var str = date[2] + '分' + date[3] + '秒';
+            layui.$('#test').html('倒计时：' + str);
+            // 如果结束时间小于或等于当前时间 弹出框
+            if (endTime - nowDate == 5000) {
+                $("#test").attr("style", "color:red").html('倒计时：' + str);
+            } else if (endTime <= nowDate) {
+                $("#test").attr("style", "color:red").html('演讲完毕！等待下一位参赛者演讲');
+            }
+        });
+
+
+
+        //获得消息事件
+        socket.onmessage = function (msg) {
+            console.log(msg.data);
+            // 解析JSON串
+            var data = JSON.parse(msg.data);
+            if (data.message.userSortnum !== -1 && data.message.thisLinks === 1) {
+                // 跳转到演讲页面
+                window.location.href = "/speech?userSortnum=" + data.message.userSortnum + "&thisLinks=" + data.message.thisLinks;
+            }
+            if (data.message.userSortnum === -1 && data.message.thisLinks === 2) {
+                // 跳转到规则页面
+                window.location.href = "/process/?this_Links=" + data.message.thisLinks;
+                //window.location.href = "/topic?userSortnum=" + data.message.userSortnum;
+            }
+
+        };
+        //关闭事件
+        socket.onclose = function () {
+            console.log("websocket已关闭");
+
+        };
+        //发生了错误事件
+        socket.onerror = function () {
+            console.log("websocket发生了错误");
+        }
+    }();
+</script>
+</html>

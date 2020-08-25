@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>得分界面</title>
+    <link rel="stylesheet" href="../static/css/layui.css">
+</head>
+<body>
+    得分界面
+</body>
+
+<script src="../static/jquery-3.3.1.min.js"></script>
+<script src="../static/layui.all.js"></script>
+
+<script>
+    var webSocketUrl = "ws://101.200.43.36:8088/websocket/publicscreen";
+    var socket = new WebSocket(webSocketUrl);
+    ;!function () {
+        var layer = layui.layer,
+            form = layui.form;
+        //连接到websocket
+
+
+        //获得消息事件
+        socket.onmessage = function (msg) {
+            console.log(msg.data);
+            if(msg.data!="连接成功"){
+                // 解析JSON串
+                var data = JSON.parse(msg.data);
+
+                if(data.message.thisLinks===2){
+                    console.log("第二环节");
+                    window.location.href = "/topic?userSortnum=" + data.message.userSortnum+"&thisLinks="+data.message.thisLinks;
+                }
+                if(data.message.thisLinks===3&&data.message.userSortnum===-1){
+
+                    console.log("第三环节")
+                    //跳转至规则页面
+                    window.location.href="/process?this_Links=" + data.message.thisLinks;
+                }else if(data.message.thisLinks===3&&data.message.userSortnum!==-1){
+                    //跳转到下一个答题人
+                    window.location.href = "/topic?userSortnum=" + data.message.userSortnum+"&thisLinks="+data.message.thisLinks;
+                }
+            }
+
+        };
+        //关闭事件
+        socket.onclose = function () {
+            console.log("websocket已关闭");
+
+        };
+        //发生了错误事件
+        socket.onerror = function () {
+            console.log("websocket发生了错误");
+        }
+
+
+    }();
+</script>
+</html>

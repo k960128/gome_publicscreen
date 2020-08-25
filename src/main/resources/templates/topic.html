@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>第二环节·才思敏捷</title>
+    <link rel="stylesheet" href="../static/css/layui.css">
+    <style>
+        body {
+            font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+            background: #F8F8F8;
+        }
+
+        .layui-container {
+            width: 66%;
+        }
+
+        .layui-col-md3 {
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        h1 {
+            padding: 30px 0;
+            text-align: center;
+            color: #606266;
+        }
+
+        span {
+            font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="layui-container">
+    <div>
+        <h1 th:if="${thisLinks eq '2'}">美财之星总决赛——第二环节·才思敏捷</h1>
+        <h1 th:if="${thisLinks eq '3'}">美财之星总决赛——第三环节·场景再现</h1>
+        <span th:text="'当前选题人：'+${user.competitionOrder}+'号，'+${user.userPersonsName}"></span>
+    </div>
+
+    <div th:each="r:${list}" class="layui-col-md3">
+
+        <button th:if="${r.isEnable eq '否'}"   class="layui-btn">
+            <span th:text="${'第'+r.thisNumber+'套题'}"></span>
+        </button>
+        <button th:if="${r.isEnable eq '是'}"
+                class="layui-btn layui-btn-disabled ">
+            <span th:text="${r.respondent+'已经抽选'}"></span>
+        </button>
+    </div>
+</div>
+</body>
+<script src="../static/jquery-3.3.1.min.js"></script>
+<script src="../static/layui.all.js"></script>
+<script>
+    var webSocketUrl = "ws://101.200.43.36:8088/websocket/publicscreen";
+    var socket = new WebSocket(webSocketUrl);
+    ;!function () {
+        var layer = layui.layer,
+            form = layui.form;
+        //连接到websocket
+
+
+        //获得消息事件
+        socket.onmessage = function (msg) {
+            console.log(msg.data);
+            if(msg.data!="连接成功"){
+                // 解析JSON串
+                var data = JSON.parse(msg.data);
+                //表示接受公屏端的报文
+                if(data.toUserId==="publicscreen"){
+                    console.log("选手选的题为："+data.message.thisNumber);
+                    window.location.href = "/answer?thisNumber=" + data.message.thisNumber +"&thisLinks="+data.message.thisLinks+"&competitionOrder=[(${user.competitionOrder})]";
+                }
+
+            }
+
+        };
+        //关闭事件
+        socket.onclose = function () {
+            console.log("websocket已关闭");
+
+        };
+        //发生了错误事件
+        socket.onerror = function () {
+            console.log("websocket发生了错误");
+        }
+
+
+    }();
+</script>
+</html>

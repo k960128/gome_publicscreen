@@ -30,6 +30,9 @@
     </style>
 </head>
 <body>
+<div>
+    <audio preload="auto" autoplay loop  id="audio_bgm_div" src="../static/bgm/bgm.mp3" type="audio/mpeg"></audio>
+</div>
 <div class="mydiv ">
     <h1 id="_id1" class="title_1 layui-anim layui-anim-up">第五届美财之星</h1>
     <h1 id="_id2" class="title_2 layui-anim layui-anim-up">全国总决赛</h1>
@@ -57,8 +60,37 @@
                 console.log(data);
                 if (data.message.sortNum === 2) {
                     console.log("播放开场音乐");
+                    $('#audio_bgm_div')[0].autoplay="autoplay";
+                    //获取音量
+                    var v = $('#audio_bgm_div')[0].volume;
+                    console.log("v:"+v)
+                    //设置音量为0
+                    v = 0;
+                    //开始播放
+                    $('#audio_bgm_div')[0].play();
+                    var t = setInterval(function(){
+                        v+=0.1;
+                        console.log("v:"+v)
+                        if(v<=1){
+                            $('#audio_bgm_div')[0].volume = v;
+                        }else{
+                            clearInterval(t);
+                        }
+                    },200);
                 } else if (data.message.sortNum === 3) {
                     console.log("关闭背景音乐并播放视频")
+                    var v = $('#audio_bgm_div')[0].volume;
+                    var t = setInterval(function(){
+                        v-=0.1;
+                        console.log("v:"+v)
+                        if(v>0){
+                            $('#audio_bgm_div')[0].volume =v;
+                        }else{
+                            clearInterval(t);
+                            $('#audio_bgm_div')[0].pause();
+                        }
+                    },200);
+
                 } else if (data.message.sortNum === 4) {
                     console.log("方总讲话");
                 } else if (data.message.sortNum === 5) {

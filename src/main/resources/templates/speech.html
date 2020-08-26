@@ -5,6 +5,7 @@
     <title>演讲页面</title>
     <link rel="stylesheet" href="../static/css/layui.css">
     <link href="../static/css/bootstrap.css" rel="stylesheet" type="text/css"/>
+    <link href="../static/favicon.ico" rel="shortcut icon">
     <link href="../static/css/speech.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
@@ -94,26 +95,32 @@
             if (endTime - nowDate == 5000) {
                 $("#test").attr("style", "color:red").html('倒计时：' + str);
             } else if (endTime <= nowDate) {
-                $("#test").attr("style", "color:red").html('演讲完毕！等待下一位参赛者演讲');
+                $("#test").attr("style", "color:red").html('演讲完毕！等待进入选题界面');
             }
         });
-
 
 
         //获得消息事件
         socket.onmessage = function (msg) {
             console.log(msg.data);
             // 解析JSON串
-            var data = JSON.parse(msg.data);
-            if (data.message.userSortnum !== -1 && data.message.thisLinks === 1) {
-                // 跳转到演讲页面
-                window.location.href = "/speech?userSortnum=" + data.message.userSortnum + "&thisLinks=" + data.message.thisLinks;
+            if(msg.data!="连接成功"){
+                var data = JSON.parse(msg.data);
+                if (data.message.userSortnum !== -1 && data.message.thisLinks === 1) {
+                    // 跳转到演讲页面
+                    window.location.href = "/speech?userSortnum=" + data.message.userSortnum + "&thisLinks=" + data.message.thisLinks;
+                }
+                if (data.message.userSortnum !== -1 && data.message.thisLinks === 2) {
+                    // 跳转到演讲页面
+                    window.location.href = "/topic?userSortnum=" + data.message.userSortnum + "&thisLinks=" + data.message.thisLinks;
+                }
+                /*if (data.message.userSortnum === -1 && data.message.thisLinks === 2) {
+                    // 跳转到规则页面
+                    window.location.href = "/process/?this_Links=" + data.message.thisLinks;
+                    //window.location.href = "/topic?userSortnum=" + data.message.userSortnum;
+                }*/
             }
-            if (data.message.userSortnum === -1 && data.message.thisLinks === 2) {
-                // 跳转到规则页面
-                window.location.href = "/process/?this_Links=" + data.message.thisLinks;
-                //window.location.href = "/topic?userSortnum=" + data.message.userSortnum;
-            }
+
 
         };
         //关闭事件

@@ -126,9 +126,10 @@
                 // 解析JSON串
                 var data = JSON.parse(msg.data);
                 console.log(data);
-                if(msg.data.toUserId==="publicscreen"){
+                if(data.toUserId==="publicscreen"){
                     //跳转到得分页面
-                    window.location.href="/score?competitionOrder=[(${user.competitionOrder})]&thisLinks=2";
+                    console.log("跳转至得分页面！");
+                    window.location.href="/score";
                 }
             }
 

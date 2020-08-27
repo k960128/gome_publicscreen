@@ -66,17 +66,16 @@
         //获得消息事件
         socket.onmessage = function (msg) {
             console.log(msg.data);
-            if(msg.data!="连接成功"){
+            if(msg.data!=="连接成功"){
                 // 解析JSON串
                 var data = JSON.parse(msg.data);
                 //表示接受公屏端的报文
-                if(data.toUserId==="publicscreen"){
+                console.log(data.toUserId);
+                if(data.toUserId=="publicscreen"){
                     console.log("选手选的题为："+data.message.thisNumber);
                     window.location.href = "/answer?thisNumber=" + data.message.thisNumber +"&thisLinks="+data.message.thisLinks+"&competitionOrder=[(${user.competitionOrder})]";
                 }
-
             }
-
         };
         //关闭事件
         socket.onclose = function () {

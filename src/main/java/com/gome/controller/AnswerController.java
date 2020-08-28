@@ -78,8 +78,5 @@ public class AnswerController {
 
 
 
-    @GetMapping("/score")
-    public String to_Wait(){
-        return "score";
-    }
+
 }

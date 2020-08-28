@@ -11,7 +11,7 @@
         </commentGenerator>
         <!--数据库连接的信息：驱动类、连接地址、用户名、密码 -->
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://101.200.43.36:3306/gome_db?useSSL=true&amp;characterEncoding=utf8"
+                        connectionURL="jdbc:mysql://10.2.51.69:3306/gome_db?useSSL=true&amp;characterEncoding=utf8"
                         userId="root"
                         password="root">
         </jdbcConnection>

@@ -55,7 +55,7 @@
 <script src="../static/jquery-3.3.1.min.js"></script>
 <script src="../static/layui.all.js"></script>
 <script>
-    var webSocketUrl = "ws://101.200.43.36:8088/websocket/publicscreen";
+    var webSocketUrl = "ws://10.2.51.69:8088/websocket/publicscreen";
     var socket = new WebSocket(webSocketUrl);
     ;!function () {
         var layer = layui.layer,
@@ -71,7 +71,10 @@
                 var data = JSON.parse(msg.data);
                 //表示接受公屏端的报文
                 console.log(data.toUserId);
-                if(data.toUserId=="publicscreen"){
+                //第一环节
+
+                //第二环节，跳转题目
+                if(data.toUserId==="publicscreen"){
                     console.log("选手选的题为："+data.message.thisNumber);
                     window.location.href = "/answer?thisNumber=" + data.message.thisNumber +"&thisLinks="+data.message.thisLinks+"&competitionOrder=[(${user.competitionOrder})]";
                 }

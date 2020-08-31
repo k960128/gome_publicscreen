@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>js轮播图</title>
+    <link rel="stylesheet" href="../static/argue/css/jquery.zySlide.css">
+    <style>
+        body{ background-color:#2E2E2E}
+        .zy-Slide section{ color: #FFFFFF; border-width: 1px; border-style: solid; }
+    </style>
+</head>
+
+<body>
+<div id="Slide1" class="zy-Slide">
+    <!--prev:元素中的文本通常会保留空格和换行符。而文本也会呈现为等宽字体。-->
+
+    <ul id="first_ul">
+        <!--alt + shift : 可以创建一个矩形选择区域-->
+        <li><img src="../static/images/photo/韩祁.jpg" /></li>
+        <li><img src="../static/images/photo/鲁紫微.jpg" /></li>
+        <li><img src="../static/images/photo/黄锋.jpg" /></li>
+        <li><img src="../static/images/photo/隋全丽.jpg" /></li>
+        <li><img src="../static/images/photo/郭淑卿.jpg" /></li>
+        <li><img src="../static/images/photo/张显韬.jpg" /></li>
+        <li><img src="../static/images/photo/张显韬.jpg" /></li>
+
+    </ul>
+</div>
+<div id="Slide2" class="zy-Slide">
+    <!--prev:元素中的文本通常会保留空格和换行符。而文本也会呈现为等宽字体。-->
+
+    <ul>
+        <!--alt + shift : 可以创建一个矩形选择区域-->
+        <li><img src="../static/images/photo/张显韬.jpg" /></li>
+        <li><img src="../static/images/photo/吕晓兰.jpg" /></li>
+        <li><img src="../static/images/photo/关海艳.jpg" /></li>
+        <li><img src="../static/images/photo/孙尚.jpg" /></li>
+        <li><img src="../static/images/photo/韩祁.jpg" /></li>
+        <li><img src="../static/images/photo/张显韬.jpg" /></li>
+        <li><img src="../static/images/photo/张显韬.jpg" /></li>
+    </ul>
+</div>
+<script src="../static/jquery-3.3.1.min.js"></script>
+<script src="../static/jquery.zySlide.js"></script>
+<script>
+    $.noConflict()
+    jQuery('#Slide1').zySlide({ speed: 500 })
+        .css('border', '0px solid blue')
+    jQuery('#Slide2').zySlide({ speed: 500 })
+        .css('border', '0px solid blue')
+
+</script>
+</body>
+
+</html>

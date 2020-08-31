@@ -2,53 +2,77 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>得分界面</title>
-    <link rel="stylesheet" href="../static/css/layui.css">
+    <title>第二环节·分数</title>
     <link href="../static/favicon.ico" rel="shortcut icon">
+    <link rel="stylesheet" href="../static/css/layui.css">
+
 </head>
 <body>
-    得分界面
-</body>
+<div>
+    <table class="layui-table"  >
+        <thead>
+        <tr>
+            <th>名次</th>
+            <th>姓名</th>
+            <th>第一环节</th>
+            <th>第二环节</th>
+            <th>第三环节</th>
+            <th>第四环节</th>
+            <th>第五环节</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>1</td>
+            <td>郭淑卿</td>
+            <td>60</td>
+            <td>20</td>
+            <td>30</td>
+            <td>40</td>
+            <td>50</td>
+        </tr>
 
+        </tbody>
+    </table>
+</div>
+</body>
 <script src="../static/jquery-3.3.1.min.js"></script>
 <script src="../static/layui.all.js"></script>
-
 <script>
-    var webSocketUrl = "ws://10.2.51.69:8088/websocket/publicscreen";
-    var socket = new WebSocket(webSocketUrl);
     ;!function () {
         var layer = layui.layer,
             form = layui.form;
         //连接到websocket
-
+        var webSocketUrl = "ws://10.2.51.69:8088/websocket/[(${session.user.userName})]";
+        var socket = new WebSocket(webSocketUrl);
 
         //获得消息事件
         socket.onmessage = function (msg) {
             console.log(msg.data);
-            if(msg.data!="连接成功"){
+            if (msg.data !== "连接成功") {
                 // 解析JSON串
                 var data = JSON.parse(msg.data);
-
+                //第一环节
                 if(data.message.thisLinks===1&&data.message.userSortnum!==-1){
+                    //跳转至第一环节
                     console.log("跳转至第一环节");
-                    window.location.href = "/speech?userSortnum=" + data.message.userSortnum + "&thisLinks=" + data.message.thisLinks;
+                    window.location.href="/speech?userSortnum="+data.message.userSortnum+"&thisLinks="+data.message.thisLinks;
                 }
 
-                if(data.message.thisLinks===2){
-                    console.log("第二环节");
-                    window.location.href = "/topic?userSortnum=" + data.message.userSortnum+"&thisLinks="+data.message.thisLinks;
-                }
-                if(data.message.thisLinks===3&&data.message.userSortnum===-1){
 
-                    console.log("第三环节")
-                    //跳转至规则页面
-                    window.location.href="/process?this_Links=" + data.message.thisLinks;
-                }else if(data.message.thisLinks===3&&data.message.userSortnum!==-1){
-                    //跳转到下一个答题人
-                    // window.location.href = "/topic?userSortnum=" + data.message.userSortnum+"&thisLinks="+data.message.thisLinks;
+                /*if (data.message.userSortnum !== -1 && data.message.thisLinks === 2) {
+                    // 跳转 第二环节选题卡页面
+                    window.location.href = "/topic?userSortnum=" + data.message.userSortnum + "&thisLinks=" + data.message.thisLinks;
+                }*/
+                if (data.message.userSortnum === -1) {
+                    // 跳转到规则页面
+                    window.location.href = "/process?this_Links=" + data.message.thisLinks;
+                }
+                if (data.message.userSortnum !== -1 && data.message.thisLinks === 3) {
+                    // 跳转 第三环节选题卡页面
+                    window.location.href = "/topic?userSortnum=" + data.message.userSortnum + "&thisLinks=" + data.message.thisLinks;
                 }
             }
-
         };
         //关闭事件
         socket.onclose = function () {
@@ -59,8 +83,6 @@
         socket.onerror = function () {
             console.log("websocket发生了错误");
         }
-
-
     }();
 </script>
 </html>

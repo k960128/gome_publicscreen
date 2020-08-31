@@ -6,6 +6,12 @@
     <link href="../static/favicon.ico" rel="shortcut icon">
     <link rel="stylesheet" href="../static/css/layui.css">
 
+    <style>
+        body{
+            background-color: #00a78e;
+        }
+    </style>
+
 
 
 </head>
@@ -46,11 +52,12 @@
                 if(data.message.userSortnum===1&&data.message.thisLinks===3){
                     window.location.href = "/topic?userSortnum=" + data.message.userSortnum+"&thisLinks="+data.message.thisLinks;
                 }
-                if(data.message.userSortnum===1&&data.message.thisLinks===4){
-                    console.log("第四环节")
+                //第五环节
+                if(data.message.thisLinks===4){
+                   window.location.href="/argue";
                 }
                 if(data.message.userSortnum===1&&data.message.thisLinks===5){
-                    console.log("第五环节")
+                    window.location.href = "/topic?userSortnum=" + data.message.userSortnum+"&thisLinks="+data.message.thisLinks;
                 }
 
             }

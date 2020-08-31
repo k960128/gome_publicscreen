@@ -42,13 +42,13 @@
 
     <div th:each="r:${list}" class="layui-col-md3">
 
-        <button th:if="${r.isEnable eq '否'}"   class="layui-btn">
+        <button class="layui-btn" th:if="${r.isEnable eq '否'}">
             <span th:text="${'第'+r.thisNumber+'套题'}"></span>
         </button>
-        <button th:if="${r.isEnable eq '是'}"
-                class="layui-btn layui-btn-disabled ">
-            <span th:text="${r.respondent+'已经抽选'}"></span>
+        <button class="layui-btn layui-disabled" th:if="${r.isEnable eq '是'}">
+            <span th:text="${r.respondent}"></span>
         </button>
+
     </div>
 </div>
 </body>
@@ -74,7 +74,7 @@
                 //第一环节
 
                 //第二环节，跳转题目
-                if(data.toUserId==="publicscreen"){
+                if(data.message.thisLinks=='2'&&data.toUserId=='all'){
                     console.log("选手选的题为："+data.message.thisNumber);
                     window.location.href = "/answer?thisNumber=" + data.message.thisNumber +"&thisLinks="+data.message.thisLinks+"&competitionOrder=[(${user.competitionOrder})]";
                 }

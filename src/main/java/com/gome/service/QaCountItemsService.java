@@ -13,8 +13,7 @@ import java.util.List;
  * @Modified By:
  */
 public interface QaCountItemsService {
-    // 查询所有未答的题
-    List<QaCountItems> getCountList();
+
 
     // 添加套题用户
     boolean updateThisNumber(Integer thisNumber, String userName);

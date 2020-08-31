@@ -62,4 +62,17 @@ public class QaCountItems {
     public void setThisLinks(String thisLinks) {
         this.thisLinks = thisLinks == null ? null : thisLinks.trim();
     }
+
+
+    @Override
+    public String toString() {
+        return "QaCountItems{" +
+                "id=" + id +
+                ", thisNumber=" + thisNumber +
+                ", isEnable='" + isEnable + '\'' +
+                ", respondent='" + respondent + '\'' +
+                ", startTime=" + startTime +
+                ", thisLinks='" + thisLinks + '\'' +
+                '}';
+    }
 }

@@ -51,7 +51,8 @@
         <table schema="" tableName="qa_question_list"></table>
         <table schema="" tableName="qa_question_reply"></table>
         <table schema="" tableName="qa_scores_record"></table>-->
-        <table schema="" tableName="gome_qa_rule"></table>
+        <table schema="" tableName="judges_scores"></table>
+        <table schema="" tableName="final_score"></table>
 
     </context>
 </generatorConfiguration>

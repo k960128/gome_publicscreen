@@ -40,6 +40,9 @@ public class TopicController {
 
         GomeUser gomeUser = gomeUserService.selectAll(userSortnum);
         List<QaCountItems> qaCountItemsList = qaCountItemsService.getCountList(thisLinks);
+        for(QaCountItems qa : qaCountItemsList){
+            System.out.println(qa.toString());
+        }
         model.addAttribute("user",gomeUser);
         model.addAttribute("list",qaCountItemsList);
         model.addAttribute("thisLinks",thisLinks);

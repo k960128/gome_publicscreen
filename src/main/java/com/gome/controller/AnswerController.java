@@ -49,6 +49,8 @@ public class AnswerController {
         GomeUser gomeUser = gomeUserService.selectAll(competitionOrder);
 
 
+
+        //当前为第二环节。
         if (thisLinks.equals("2")) {
             // 2.获取本套题所有的选择题
             List<QaQuestionList> questionList = questionListService.getQuestionList(thisNumber, thisLinks);
@@ -70,6 +72,7 @@ public class AnswerController {
             model.addAttribute("user",gomeUser);
             return "answer";
         } else {
+            //第三环节
             List<QaQuestionList> questionList = questionListService.getQuestionList(thisNumber, thisLinks);
             model.addAttribute("list", questionList);
             return "subjective";

@@ -25,17 +25,7 @@ public class QaCountItemsServiceImpl implements QaCountItemsService {
     @Autowired(required = false)
     private QaCountItemsMapper qaCountItemsMapper;
 
-    @Override
-//    @Scheduled(cron = "0/10 * * * * ?")
-    @Transactional(rollbackFor = {RuntimeException.class, Error.class})
-    public List<QaCountItems> getCountList() {
-        System.err.println(new Date());
-        QaCountItemsExample example = new QaCountItemsExample();
-        QaCountItemsExample.Criteria criteria = example.createCriteria();
-        criteria.andIsEnableLike("否");
-        criteria.andRespondentIsNull();
-        return qaCountItemsMapper.selectByExample(example);
-    }
+
 
     /**
      * 修改n套题的 答题人
@@ -116,7 +106,7 @@ public class QaCountItemsServiceImpl implements QaCountItemsService {
         QaCountItemsExample example = new QaCountItemsExample();
         QaCountItemsExample.Criteria criteria = example.createCriteria();
         criteria.andThisLinksEqualTo(thisLinks);
-        criteria.andRespondentIsNull();
+
         return qaCountItemsMapper.selectByExample(example);
     }
 }

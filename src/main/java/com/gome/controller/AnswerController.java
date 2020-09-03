@@ -44,11 +44,10 @@ public class AnswerController {
     private GomeUserService gomeUserService;
 
     @GetMapping("/answer")
-    public String answer(@RequestParam Integer thisNumber,Integer competitionOrder ,@RequestParam String thisLinks,  Model model) {
+    public String answer(@RequestParam Integer thisNumber, Integer competitionOrder, @RequestParam String thisLinks, Model model) {
 
         GomeUser gomeUser = gomeUserService.selectAll(competitionOrder);
-
-
+        System.out.println(gomeUser);
 
         //当前为第二环节。
         if (thisLinks.equals("2")) {
@@ -69,17 +68,36 @@ public class AnswerController {
                 list.add(questionDTO);
             }
             model.addAttribute("list", list);
-            model.addAttribute("user",gomeUser);
+            model.addAttribute("user", gomeUser);
             return "answer";
-        } else {
+        }
+        //第三环节
+        if (thisLinks.equals("3")) {
             //第三环节
             List<QaQuestionList> questionList = questionListService.getQuestionList(thisNumber, thisLinks);
             model.addAttribute("list", questionList);
+            //将当前答题人信息存入model
+            model.addAttribute("user",gomeUser);
+            model.addAttribute("competitionOrder",competitionOrder);
+            model.addAttribute("thisLinks",thisLinks);
             return "subjective";
+        }else if (thisLinks.equals("5")) {
+            System.out.println(5);
+            //第五环节
+            List<QaQuestionList> questionList = questionListService.getQuestionList(thisNumber, thisLinks);
+            //获取当前答题人信息
+
+            model.addAttribute("list", questionList);
+
+            //将当前答题人信息存入model
+            model.addAttribute("user",gomeUser);
+            model.addAttribute("competitionOrder",competitionOrder);
+            model.addAttribute("thisLinks",thisLinks);
+            return "subjective";
+        }else{
+        return "wait";
         }
     }
-
-
 
 
 }

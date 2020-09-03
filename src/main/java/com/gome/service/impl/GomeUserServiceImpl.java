@@ -25,7 +25,6 @@ public class GomeUserServiceImpl implements GomeUserService {
     private GomeUserMapper gomeUserMapper;
 
 
-
     /**
      * 通过选手号查询用户
      *
@@ -45,5 +44,13 @@ public class GomeUserServiceImpl implements GomeUserService {
             }
         }
         return null;
+    }
+
+    @Override
+    public List<GomeUser> selectAll() {
+        GomeUserExample example = new GomeUserExample();
+        GomeUserExample.Criteria criteria = example.createCriteria();
+        criteria.andCompetitionOrderNotEqualTo(0);
+        return gomeUserMapper.selectByExample(example);
     }
 }

@@ -55,7 +55,9 @@
 </head>
 <body>
 <div class="layui-container">
-    <div id="test">答题时间：5分0秒</div><!--剩余时间-->
+    <div id="test">
+        <span id="test_showtimer"></span>
+    </div><!--剩余时间-->
     <div class="layui-header">
         <h1>第五届美财之星全国总决赛</h1>
         <span th:text="'当前答题人：'+${user.userPersonsName}"></span>
@@ -73,6 +75,8 @@
 <script src="../static/layui.all.js"></script>
 <script>
     //连接到websocket
+    // var webSocketUrl = "ws://10.2.135.10:8088/websocket/publicscreen";
+    // var webSocketUrl = "ws://10.2.51.69:8088/websocket/publicscreen";
     var webSocketUrl = "ws://10.2.51.69:8088/websocket/publicscreen";
     var socket = new WebSocket(webSocketUrl);
 
@@ -86,7 +90,7 @@
         var date = new Date();
         var min = date.getMinutes();
         //3. 设置当前时间+5分钟：把zhi当前分钟数+5后的值重新设置为date对象的分钟数
-        date.setMinutes(min + 5);
+        date.setMinutes(min + 10);
         // 设置开始时间和结束时间
         var endTime = date.getTime();
         var nowDate = new Date().getTime();
@@ -94,14 +98,15 @@
         util.countdown(endTime, nowDate, function (date, nowDate, timer) {
             // 1. 如果加的五分钟小于当前时间
             var str = date[2] + '分' + date[3] + '秒';
-            layui.$('#test').html('倒计时：' + str);
-            // 如果结束时间小于或等于当前时间 弹出框
-            if (endTime - nowDate == 5000) {
-                $("#test").attr("style", "color:red").html('倒计时：' + str);
+            if (endTime > nowDate) {
+                $("#test_showtimer").attr("style", "color:red").html('倒计时：' + str);
             } else if (endTime <= nowDate) {
-                $("#test").attr("style", "color:red").html('答题完毕！等待');
-                //跳转至得分界面
-                window.location.href="/score?competitionOrder=[(${user.competitionOrder})]&thisLinks=3";
+                $("#test_showtimer").hide("slow");
+
+                clearInterval(timer);
+
+                $("#test_showtimer").attr("style", "color:red").html('答题完毕！等待评委评分！');
+                $("#test_showtimer").show("slow");
             }
         });
 
@@ -112,8 +117,45 @@
             if (msg.data !== "连接成功") {
                 // 解析JSON串
                 var data = JSON.parse(msg.data);
-                if(data.message.thisLinks===3){
-                    window.location.href = "/topic?userSortnum=" + data.message.userSortnum+"&thisLinks="+data.message.thisLinks;
+                //第三环节
+                if (data.message.thisLinks == 3 || data.message.thisLinks == 5) {
+                    if(data.toUserId=="all"&&data.message.userSortnum!=-1){
+                        //表示手动结束演讲
+                        endTime = nowDate;
+                        $("#test_showtimer").hide("slow");
+                    }
+
+                    if(data.toUserId=="all"&&data.message.userSortnum==-1){
+                        //表示后端结束演讲开始评委倒计时1分钟答题时间
+                        //并重新开始倒计时
+                        $("#test_showtimer").hide("slow");
+                        date = new Date();
+                        min = date.getMinutes();
+                        date.setMinutes(min + 1);
+                        endTime = date.getTime();
+                        nowDate = new Date().getTime();
+
+                        util.countdown(endTime, nowDate, function (date, nowDate, timer) {
+                            // 1. 如果加的五分钟小于当前时间
+                            var str = date[2] + '分' + date[3] + '秒';
+                            $("#test_showtimer").show("slow");
+                            if (endTime > nowDate) {
+                                $("#test_showtimer").attr("style", "color:red").html('等待评委评分倒计时：' + str);
+                            } else if (endTime <= nowDate) {
+                                $("#test_showtimer").hide("slow");
+                                clearInterval(timer);
+                                $("#test_showtimer").attr("style", "color:red").html('打分结束！');
+                                $("#test_showtimer").show("slow");
+                            }
+                        });
+
+                    }
+                    if(data.toUserId=="all"&&data.message.userSortnum==99){
+                        //进入得分界面
+                        console.log("进入得分界面");
+                        window.location.href = "/score?thisLinks=3&userSortnum=[(${user.competitionOrder})]";
+                    }
+
                 }
             }
         };

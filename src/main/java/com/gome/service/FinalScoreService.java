@@ -12,4 +12,8 @@ import java.util.List;
  */
 public interface FinalScoreService {
     List<FinalScore> findByAll();
+
+    Double getScore(String thisLinks,int userSortnum);
+
+    List<FinalScore> findBySortList(String thisLinks);
 }

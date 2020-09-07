@@ -46,6 +46,7 @@ public class TopicController {
         model.addAttribute("user",gomeUser);
         model.addAttribute("list",qaCountItemsList);
         model.addAttribute("thisLinks",thisLinks);
+
         return "topic";
     }
 }

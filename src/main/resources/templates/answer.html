@@ -2,14 +2,14 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>第二环节·答题页面</title>
+    <title>答题页面</title>
     <link href="../static/favicon.ico" rel="shortcut icon">
     <link rel="stylesheet" href="../static/css/layui.css">
     <style>
         body {
             font-family: 'Open Sans', Helvetica, Arial, sans-serif;
             background: #F8F8F8;
-
+            display: none;
         }
 
         .layui-container {
@@ -68,7 +68,7 @@
         }
     </style>
 </head>
-<body>
+<body id="body">
 <div class="layui-container">
     <div id="test">考试时间：5分0秒</div><!--剩余时间-->
     <div class="layui-header">
@@ -109,10 +109,9 @@
 <script src="../static/layui.all.js"></script>
 <script>
     //连接到websocket
-    // var webSocketUrl = "ws://10.2.51.69:8088/websocket/publicscreen";
-    // var webSocketUrl = "ws://10.2.135.10:8088/websocket/publicscreen";
-    var webSocketUrl = "ws://10.2.124.245:8088/websocket/publicscreen";
+    var webSocketUrl = "ws://10.2.51.69:8088/websocket/publicscreen";
     var socket = new WebSocket(webSocketUrl);
+    $('#body').show("2000");
     ;!function () {
         var layer = layui.layer,
             form = layui.form,
@@ -127,7 +126,9 @@
                 console.log(data);
                 //第二环节，跳转到得分界面
                 if(data.toUserId=="all"&&data.message.title=="close_answer"){
-                    window.location.href = "/score?thisLinks=2&userSortnum="+data.message.userSortnum;
+                    setTimeout(function(){
+                        window.location.href = "/score?thisLinks=2&userSortnum=" + data.message.userSortnum;
+                    },5000);
                 }
             }
 
@@ -181,8 +182,12 @@
                 layui.$('#test').html('距离考试结束还有：' + str);
                 // 如果结束时间小于或等于当前时间 弹出框
                 if (endTime <= nowDate) {
-                    window.location.href = "/score?thisLinks=2&userSortnum=publicscreen";
+
+                    setTimeout(function(){
+                        window.location.href = "/score?thisLinks=2&userSortnum=" + data.message.userSortnum;
+                    },5000);
                 }
+
             });
         });
     }();

@@ -60,4 +60,16 @@ public class FinalScore {
     public void setFinalScore(Double finalScore) {
         this.finalScore = finalScore;
     }
+
+    @Override
+    public String toString() {
+        return "FinalScore{" +
+                "id=" + id +
+                ", thisLinks='" + thisLinks + '\'' +
+                ", userPersonsName='" + userPersonsName + '\'' +
+                ", userName='" + userName + '\'' +
+                ", competitionOrder='" + competitionOrder + '\'' +
+                ", finalScore=" + finalScore +
+                '}';
+    }
 }

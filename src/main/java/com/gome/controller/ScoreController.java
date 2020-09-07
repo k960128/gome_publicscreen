@@ -2,6 +2,7 @@ package com.gome.controller;
 
 
 import com.gome.pojo.FinalScore;
+import com.gome.pojo.GomeUser;
 import com.gome.service.FinalScoreService;
 import com.gome.service.GomeUserService;
 import com.gome.service.QaScoresRecordService;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 @Controller
@@ -27,17 +30,46 @@ public class ScoreController {
 
     /**
      * 跳转至得分界面
+     *
      * @return
      */
     @GetMapping("/score")
-    public String to_Wait(@RequestParam String thisLinks, int userSortnum, HttpServletRequest request , Model model){
+    public String to_Wait(@RequestParam String thisLinks, int userSortnum, HttpServletRequest request, Model model) {
 
-        //第二环节
+        Double find_score = 0.0;
+        GomeUser gomeUser = gomeUserService.selectAll(userSortnum);
+
+        find_score = finalScoreService.getScore(thisLinks, userSortnum);
+
+        //查询当前环节总排名
+        List<FinalScore> finalScoreListSort = finalScoreService.findBySortList(thisLinks);
         if(thisLinks.equals("2")){
-            //查询成绩
-            List<FinalScore> finalScores = finalScoreService.findByAll();
-            model.addAttribute("finalScores",finalScores);
+            //如果是第二环节，进行一个排序
+            Collections.sort(finalScoreListSort, new Comparator<FinalScore>() {
+                @Override
+                public int compare(FinalScore o1, FinalScore o2) {
+                    return o2.getFinalScore().compareTo(o1.getFinalScore());
+                }
+            });
         }
+
+        System.out.println("排序后：");
+        for (FinalScore finalSore: finalScoreListSort
+        ) {
+            System.out.println(finalSore.toString());
+        }
+
+        model.addAttribute("finalScoreListSort",finalScoreListSort);
+        model.addAttribute("thisLinks", thisLinks);
+        model.addAttribute("userSortnum", userSortnum);
+        model.addAttribute("finalScores", find_score);
+        model.addAttribute("user", gomeUser);
+        System.out.println("==========================");
+        System.out.println(finalScoreListSort.toString());
+        System.out.println(thisLinks);
+        System.out.println(userSortnum);
+        System.out.println(find_score);
+        System.out.println(gomeUser.toString());
         return "score";
     }
 

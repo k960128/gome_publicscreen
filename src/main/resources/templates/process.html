@@ -24,6 +24,7 @@
             margin: 200px auto;
             transform: scale(1.2) rotate(360deg);/*放大1.2倍 旋转360°*/
             color: #f7f7f7;
+            width: 60%;
         }
 
     </style>
@@ -48,7 +49,7 @@
         //连接到websocket
         // var webSocketUrl = "ws://10.2.135.10:8088/websocket/publicscreen";
         // var webSocketUrl = "ws://10.2.51.69:8088/websocket/publicscreen";
-        var webSocketUrl = "ws://10.2.124.245:8088/websocket/publicscreen";
+        var webSocketUrl = "ws://10.2.51.69:8088/websocket/publicscreen";
         var socket = new WebSocket(webSocketUrl);
 
         $("#span1").show("slow");
@@ -75,6 +76,7 @@
                     window.location.href = "/topic?userSortnum=" + data.message.userSortnum + "&thisLinks=" + data.message.thisLinks;
                 }
                 if (data.message.userSortnum === 90 && data.message.thisLinks === 4) {
+                    console.log("第四环节")
                     window.location.href = "/argue";
                 }
                 if (data.message.userSortnum === 1 && data.message.thisLinks === 5) {

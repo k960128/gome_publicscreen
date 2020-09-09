@@ -16,5 +16,5 @@ public interface QaQuestionListService {
     // 查询n套题的所有题，并将此套提放入登录的用户中
     List<QaQuestionList> getQuestionList(Integer thisNumber, String questionType);
 
-
+    QaQuestionList getQuestion(int id);
 }

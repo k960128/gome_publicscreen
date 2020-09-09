@@ -47,7 +47,15 @@ public class QaQuestionListServiceImpl implements QaQuestionListService {
         return qaQuestionLists;
     }
 
-
+    @Override
+    public QaQuestionList getQuestion(int id) {
+        QaQuestionListExample example = new QaQuestionListExample();
+        QaQuestionListExample.Criteria criteria = example.createCriteria();
+        criteria.andIdEqualTo(id);
+        QaQuestionList qaQuestionList = new QaQuestionList();
+        qaQuestionList = questionListMapper.selectByExample(example).get(0);
+        return qaQuestionList;
+    }
 
 
 }

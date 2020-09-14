@@ -9,8 +9,9 @@
 
     <style>
         html {
-            background: url(static/images/background.gif);
+            background: url(static/images/美财之星总决赛-主页面-终版.png);
             background-size: 100%;
+            overflow-y: hidden;
         }
 
         body {
@@ -18,26 +19,20 @@
 
         }
 
-        .mydiv {
-            color: #FFB800;
-            font-weight: bold;
-            text-align: center;
-            font-size: 40px;
-            margin: 15% auto;
 
-
-        }
     </style>
 </head>
 <body>
 <div>
-    <audio preload="auto" autoplay loop  id="audio_bgm_div" src="../static/bgm/bgm.mp3" type="audio/mpeg"></audio>
-</div>
-<div class="mydiv ">
-    <h1 id="_id1" class="title_1 layui-anim layui-anim-up">第五届美财之星</h1>
-    <h1 id="_id2" class="title_2 layui-anim layui-anim-up">全国总决赛</h1>
+    <audio preload="auto" autoplay loop  id="audio_bgm_div" src="../static/bgm/开场音乐.mp3" type="audio/mpeg"></audio>
 </div>
 
+<!--播放视频-->
+<div id="play_mv" style="display: none;">
+    <video id="play_mv_video" type="video/mp4">
+
+    </video>
+</div>
 
 </body>
 
@@ -92,6 +87,26 @@
                             $('#audio_bgm_div')[0].pause();
                         }
                     },200);
+
+                    //开始播放视频
+                    $('#play_mv').show("slow");
+                    console.log(data.message.videoUrl);
+                    var play_mv_video = document.getElementById("play_mv_video");
+                    play_mv_video.src = data.message.videoUrl;
+                    play_mv_video.width = $(window).width();
+                    play_mv_video.height = $(window).height();
+
+                    //延迟两秒播放
+                    setTimeout(function () {
+                        play_mv_video.play();
+                    }, 2000);
+                    //延迟两秒关闭
+                    setTimeout(function () {
+                        play_mv_video.onended = function () {
+
+                            $('#play_mv').hide("slow");
+                        }
+                    }, 2000)
 
                 } else if (data.message.sortNum === 4) {
                     console.log("方总讲话");

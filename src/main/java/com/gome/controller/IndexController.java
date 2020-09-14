@@ -17,4 +17,9 @@ public class IndexController {
         return new ModelAndView("index");
     }
 
+    @GetMapping("toindex")
+    public String toIndex(){
+        return "to_index";
+    }
+
 }

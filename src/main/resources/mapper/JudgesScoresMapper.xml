@@ -86,7 +86,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from judges_scores
     where ID = #{id,jdbcType=INTEGER}
@@ -196,12 +196,12 @@
   <update id="updateByExample" parameterType="map">
     update judges_scores
     set ID = #{record.id,jdbcType=INTEGER},
-      JUDGES_ID = #{record.judgesId,jdbcType=INTEGER},
-      JUDGES_NAME = #{record.judgesName,jdbcType=VARCHAR},
-      SCORE = #{record.score,jdbcType=DOUBLE},
-      PLAYER_ID = #{record.playerId,jdbcType=INTEGER},
-      PLAYER_NAME = #{record.playerName,jdbcType=VARCHAR},
-      THIS_LINKS = #{record.thisLinks,jdbcType=VARCHAR}
+    JUDGES_ID = #{record.judgesId,jdbcType=INTEGER},
+    JUDGES_NAME = #{record.judgesName,jdbcType=VARCHAR},
+    SCORE = #{record.score,jdbcType=DOUBLE},
+    PLAYER_ID = #{record.playerId,jdbcType=INTEGER},
+    PLAYER_NAME = #{record.playerName,jdbcType=VARCHAR},
+    THIS_LINKS = #{record.thisLinks,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>

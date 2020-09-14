@@ -16,4 +16,6 @@ public interface FinalScoreService {
     Double getScore(String thisLinks,int userSortnum);
 
     List<FinalScore> findBySortList(String thisLinks);
+
+    Boolean saveScore(FinalScore finalScore);
 }

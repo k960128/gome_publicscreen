@@ -1,5 +1,7 @@
 package com.gome.service;
 
+import com.gome.pojo.QaScoresRecord;
+
 /**
  * @Description:
  * @Author: WangJinYue
@@ -9,4 +11,6 @@ package com.gome.service;
 public interface QaScoresRecordService {
     // 保存分数
     Boolean saveScore(double score, String userName, String stage);
+
+    QaScoresRecord getScore(String username);
 }

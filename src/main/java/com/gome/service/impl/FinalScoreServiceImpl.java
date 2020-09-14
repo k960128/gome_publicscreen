@@ -82,4 +82,12 @@ public class FinalScoreServiceImpl implements FinalScoreService {
 
         return finalScoreList;
     }
+
+    @Override
+    public Boolean saveScore(FinalScore finalScore) {
+        if(finalScoreMapper.insertSelective(finalScore)>0){
+            return true;
+        }
+        return false;
+    }
 }

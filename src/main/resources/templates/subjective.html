@@ -152,22 +152,11 @@
                         });
 
                     }
-                    if (data.toUserId == "all" && data.message.userSortnum == 99) {
-                        if (data.message.thisLinks == "3") {
-                            //如果是当前答题人
-
-                            setTimeout(function () {
-                                window.location.href = "/score?thisLinks=3&userSortnum=[(${user.competitionOrder})]";
-                            }, 5000);
-                        }
-                        if (data.message.thisLinks == "5") {
-
-                            setTimeout(function () {
-                                window.location.href = "/score?thisLinks=5&userSortnum=[(${user.competitionOrder})]";
-                            }, 5000);
-
-
-                        }
+                    if(data.message.thisLinks=="3"&&data.message.title=="close_subjective"){
+                        window.location.href = "/score?thisLinks=3&userSortnum=[(${user.competitionOrder})]";
+                    }
+                    if(data.message.thisLinks=="5"&&data.message.title=="close_subjective"){
+                        window.location.href = "/score?thisLinks=5&userSortnum=[(${user.competitionOrder})]";
                     }
 
                 }

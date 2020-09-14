@@ -2,6 +2,8 @@ server:
   port: 8087
   servlet:
     context-path: /
+    session:
+      timeout: 1000m
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver

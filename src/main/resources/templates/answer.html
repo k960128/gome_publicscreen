@@ -183,9 +183,7 @@
                 // 如果结束时间小于或等于当前时间 弹出框
                 if (endTime <= nowDate) {
 
-                    setTimeout(function(){
-                        window.location.href = "/score?thisLinks=2&userSortnum=" + data.message.userSortnum;
-                    },5000);
+                    clearInterval(timer);
                 }
 
             });

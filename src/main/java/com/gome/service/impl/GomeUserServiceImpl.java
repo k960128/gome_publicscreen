@@ -53,4 +53,13 @@ public class GomeUserServiceImpl implements GomeUserService {
         criteria.andCompetitionOrderNotEqualTo(0);
         return gomeUserMapper.selectByExample(example);
     }
+
+    @Override
+    public List<GomeUser> selectAllOrder() {
+        GomeUserExample example = new GomeUserExample();
+        example.setOrderByClause("COMPETITION_ORDER ASC");
+        GomeUserExample.Criteria criteria = example.createCriteria();
+        criteria.andCompetitionOrderNotEqualTo(0);
+        return gomeUserMapper.selectByExample(example);
+    }
 }

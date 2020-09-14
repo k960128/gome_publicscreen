@@ -18,4 +18,6 @@ public interface GomeUserService {
 
     // 查询所有用户(只包含参赛选手)
     List<GomeUser> selectAll();
+
+    List<GomeUser> selectAllOrder();
 }
